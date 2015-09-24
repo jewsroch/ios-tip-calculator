@@ -14,11 +14,11 @@
 		<string>github.com:jewsroch/ios-tip-calculator.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>tipcalc/tipcalculator/tipcalculator.xcodeproj</string>
+	<string>tipcalculator.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>2C9015BE2BEE20987C3585D91B8CF644FE8FC38B</key>
-		<string>../../../..</string>
+		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>github.com:jewsroch/ios-tip-calculator.git</string>
