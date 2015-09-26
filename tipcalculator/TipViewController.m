@@ -15,7 +15,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *totalLabel;
 @property (weak, nonatomic) IBOutlet UITextField *billTextField;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *tipControl;
-- (IBAction)onTap:(id)sender;
+- (IBAction)onBillChanged:(id)sender;
+- (IBAction)onTipChanged:(id)sender;
 - (void)updateValues;
 - (void)setDefaultTip;
 
@@ -29,15 +30,13 @@
     
     // Set up the Settings button
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Defaults" style:UIBarButtonItemStylePlain target:self action:@selector(onSettingsButton)];
-
-    // Set default values
-    [self setDefaultTip];
-    [self updateValues];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [self setDefaultTip];
+    [self updateValues];
+    [self.billTextField becomeFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -55,11 +54,6 @@
 }
 */
 
-- (IBAction)onTap:(id)sender {
-    [self.view endEditing:YES];
-    [self updateValues];
-}
-
 - (void)onSettingsButton {
     SettingsViewController *svc = [[SettingsViewController alloc] init];
     svc.edgesForExtendedLayout = UIRectEdgeRight;
@@ -72,6 +66,14 @@
     NSInteger tipDefaultSegmentIndex = [userDefaults integerForKey:@"tip_default"];
 
     [self.tipControl setSelectedSegmentIndex:tipDefaultSegmentIndex];
+}
+
+- (IBAction)onTipChanged:(id)sender {
+    [self updateValues];
+}
+
+- (IBAction)onBillChanged:(id)sender {
+    [self updateValues];
 }
 
 - (void)updateValues {
