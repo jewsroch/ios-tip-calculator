@@ -24,8 +24,8 @@
                     <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="25"/>
                     <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                 </textField>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Tip:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mEe-k7-n6z">
-                    <rect key="frame" x="29" y="168" width="66" height="33"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Bill" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eGm-20-tLV">
+                    <rect key="frame" x="29" y="94" width="66" height="33"/>
                     <color key="tintColor" red="0.92549026010000002" green="0.94117653369999998" blue="0.9450981021" alpha="1" colorSpace="deviceRGB"/>
                     <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="25"/>
                     <color key="textColor" red="0.92549026010000002" green="0.94117653369999998" blue="0.9450981021" alpha="1" colorSpace="deviceRGB"/>
@@ -39,7 +39,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Total:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XlQ-jB-bPh">
-                    <rect key="frame" x="29" y="247" width="134" height="37"/>
+                    <rect key="frame" x="29" y="252" width="134" height="37"/>
                     <color key="tintColor" red="0.92549026010000002" green="0.94117653369999998" blue="0.9450981021" alpha="1" colorSpace="deviceRGB"/>
                     <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="25"/>
                     <color key="textColor" red="0.92549026010000002" green="0.94117653369999998" blue="0.9450981021" alpha="1" colorSpace="deviceRGB"/>
@@ -65,8 +65,8 @@
                         <action selector="onTap:" destination="-1" eventType="valueChanged" id="J71-S6-o5f"/>
                     </connections>
                 </segmentedControl>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Bill" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eGm-20-tLV">
-                    <rect key="frame" x="29" y="94" width="66" height="33"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Tip:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mEe-k7-n6z">
+                    <rect key="frame" x="29" y="168" width="66" height="33"/>
                     <color key="tintColor" red="0.92549026010000002" green="0.94117653369999998" blue="0.9450981021" alpha="1" colorSpace="deviceRGB"/>
                     <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="25"/>
                     <color key="textColor" red="0.92549026010000002" green="0.94117653369999998" blue="0.9450981021" alpha="1" colorSpace="deviceRGB"/>
@@ -81,7 +81,7 @@
             <connections>
                 <outletCollection property="gestureRecognizers" destination="xOs-Sj-h68" appends="YES" id="CeQ-Bk-e7L"/>
             </connections>
-            <point key="canvasLocation" x="138.5" y="153.5"/>
+            <point key="canvasLocation" x="102.5" y="106.5"/>
         </view>
         <tapGestureRecognizer id="xOs-Sj-h68">
             <connections>
