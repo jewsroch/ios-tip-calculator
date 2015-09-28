@@ -21,6 +21,10 @@
 - (IBAction)onTipChanged:(id)sender;
 - (void)updateValues;
 - (void)setTipWithDefault;
+- (void)hideTipAndTotal;
+- (void)showTipAndTotal;
+- (void)hideTipAndTotalWithAnimation:(BOOL)animated;
+- (void)showTipAndTotalWithAnimation:(BOOL)animated;
 
 @end
 
@@ -29,7 +33,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"Tip+";
-    
+
     // Delegate Events
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(onApplicationWillEnterForeground)
@@ -57,9 +61,77 @@
     // Reset View
     [self setTipWithDefault];
     [self updateValues];
-    
+    [self updateViewWithAnimation:YES];
+
     // Force Number Pad to be visible on load
     [self.billTextField becomeFirstResponder];
+
+    [super viewWillAppear:animated];
+}
+
+- (void)hideTipAndTotal {
+    // Fade out the tip and total
+    self.tipLabel.alpha = 0;
+    self.totalLabel.alpha = 0;
+
+    // Slide Bill & Tip Control Down
+    CGRect billControlFrame = self.billTextField.frame;
+    billControlFrame.origin.y = 153;
+    self.billTextField.frame = billControlFrame;
+
+    CGRect tipControlFrame = self.tipControl.frame;
+    tipControlFrame.origin.y = 344;
+    self.tipControl.frame = tipControlFrame;
+}
+
+- (void)showTipAndTotal {
+    // Fade out the tip and total
+    self.tipLabel.alpha = 1;
+    self.totalLabel.alpha = 1;
+
+    // Slide Tip Control Up
+    CGRect billControlFrame = self.billTextField.frame;
+    billControlFrame.origin.y = 85;
+    self.billTextField.frame = billControlFrame;
+
+    CGRect tipControlFrame = self.tipControl.frame;
+    tipControlFrame.origin.y = 194;
+    self.tipControl.frame = tipControlFrame;
+}
+
+- (void)updateViewWithAnimation:(BOOL)animated
+{
+    float bill = [self.billTextField.text floatValue];
+
+    if (bill == 0 || bill == [@"" floatValue]) {
+        [self hideTipAndTotalWithAnimation:animated];
+    } else {
+        [self showTipAndTotalWithAnimation:animated];
+    }
+}
+
+- (void)showTipAndTotalWithAnimation:(BOOL)animated {
+    if (animated) {
+        [UIView animateWithDuration:0.4 animations:^{
+            [self showTipAndTotal];
+        } completion:^(BOOL finished) {
+        }];
+    }
+    else {
+        [self showTipAndTotal];
+    }
+}
+
+- (void)hideTipAndTotalWithAnimation:(BOOL)animated {
+    if (animated) {
+        [UIView animateWithDuration:0.4 animations:^{
+            [self hideTipAndTotal];
+        } completion:^(BOOL finished) {
+        }];
+    }
+    else {
+        [self hideTipAndTotal];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -69,7 +141,7 @@
 - (void)onSettingsButton {
     SettingsViewController *svc = [[SettingsViewController alloc] init];
     svc.edgesForExtendedLayout = UIRectEdgeRight;
-    
+
     [self.navigationController pushViewController:svc animated:YES];
 }
 
@@ -86,6 +158,8 @@
 
 - (IBAction)onBillChanged:(id)sender {
     [self updateValues];
+
+    [self updateViewWithAnimation:YES];
 }
 
 - (void)onApplicationWillResignActive {
