@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *totalLabel;
 @property (weak, nonatomic) IBOutlet UITextField *billTextField;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *tipControl;
+@property (nonatomic, strong) NSNumberFormatter *currencyFormatter;
 - (IBAction)onBillChanged:(id)sender;
 - (IBAction)onTipChanged:(id)sender;
 - (void)updateValues;
@@ -30,10 +31,16 @@
     
     // Set up the Settings button
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Defaults" style:UIBarButtonItemStylePlain target:self action:@selector(onSettingsButton)];
+
+    // Set up Currency Converter
+    self.currencyFormatter = [[NSNumberFormatter alloc] init];
+    [self.currencyFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    self.billTextField.placeholder = [self.currencyFormatter currencySymbol];
+
     [self setDefaultTip];
     [self updateValues];
     [self.billTextField becomeFirstResponder];
@@ -77,12 +84,15 @@
 }
 
 - (void)updateValues {
-    float billAmount = [self.billTextField.text floatValue];
     NSArray *tipValues = @[@(0.1), @(0.15), @(0.2), @(0.25)];
+    float billAmount = [self.billTextField.text floatValue];
     float tipAmount = billAmount * [tipValues[self.tipControl.selectedSegmentIndex] floatValue];
     float totalAmount = billAmount + tipAmount;
     
-    self.tipLabel.text = [NSString stringWithFormat:@"+ $%0.2f", tipAmount];
-    self.totalLabel.text = [NSString stringWithFormat:@"$%0.2f", totalAmount];
+    NSDecimalNumber *tip = [[NSDecimalNumber alloc] initWithFloat:tipAmount];
+    NSDecimalNumber *total = [[NSDecimalNumber alloc] initWithFloat:totalAmount];
+
+    self.tipLabel.text = [self.currencyFormatter stringFromNumber:tip];
+    self.totalLabel.text = [self.currencyFormatter stringFromNumber:total];
 }
 @end
