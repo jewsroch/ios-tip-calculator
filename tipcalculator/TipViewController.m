@@ -16,10 +16,11 @@
 @property (weak, nonatomic) IBOutlet UITextField *billTextField;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *tipControl;
 @property (nonatomic, strong) NSNumberFormatter *currencyFormatter;
+
 - (IBAction)onBillChanged:(id)sender;
 - (IBAction)onTipChanged:(id)sender;
 - (void)updateValues;
-- (void)setDefaultTip;
+- (void)setTipWithDefault;
 
 @end
 
@@ -27,8 +28,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"Tip Calculator";
+    self.title = @"Tip+";
     
+    // Delegate Events
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(onApplicationWillEnterForeground)
                                                  name:UIApplicationWillEnterForegroundNotification
@@ -49,27 +51,20 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    // Set localized placeholder
     self.billTextField.placeholder = [self.currencyFormatter currencySymbol];
 
-    [self setDefaultTip];
+    // Reset View
+    [self setTipWithDefault];
     [self updateValues];
+    
+    // Force Number Pad to be visible on load
     [self.billTextField becomeFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 - (void)onSettingsButton {
     SettingsViewController *svc = [[SettingsViewController alloc] init];
@@ -78,7 +73,7 @@
     [self.navigationController pushViewController:svc animated:YES];
 }
 
-- (void)setDefaultTip {
+- (void)setTipWithDefault {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSInteger tipDefaultSegmentIndex = [userDefaults integerForKey:@"tip_default"];
 
@@ -95,21 +90,21 @@
 
 - (void)onApplicationWillResignActive {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setObject:self.billTextField.text forKey:@"bill_value"];
-    [userDefaults setObject:[NSDate date] forKey:@"bill_date_time"];
+    [userDefaults setObject:self.billTextField.text forKey:@"recent_bill_value"];
+    [userDefaults setObject:[NSDate date] forKey:@"recent_bill_date_time"];
     [userDefaults setInteger:self.tipControl.selectedSegmentIndex forKey:@"recent_tip_index"];
 }
 
 - (void)onApplicationWillEnterForeground {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSTimeInterval timeSinceSet = [[NSDate date] timeIntervalSinceDate:[userDefaults valueForKey:@"bill_date_time"]];
+    NSTimeInterval timeSinceSet = [[NSDate date] timeIntervalSinceDate:[userDefaults valueForKey:@"recent_bill_date_time"]];
 
     if (timeSinceSet < 600) {
-        self.billTextField.text = [userDefaults valueForKey:@"bill_value"];
+        self.billTextField.text = [userDefaults valueForKey:@"recent_bill_value"];
         self.tipControl.selectedSegmentIndex = [userDefaults integerForKey:@"recent_tip_index"];
     } else {
         self.billTextField.text = @"";
-        [self setDefaultTip];
+        [self setTipWithDefault];
     }
 
     [self updateValues];
