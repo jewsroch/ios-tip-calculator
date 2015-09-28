@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *billTextField;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *tipControl;
 @property (nonatomic, strong) NSNumberFormatter *currencyFormatter;
+@property (weak, nonatomic) IBOutlet UIView *line;
 
 - (IBAction)onBillChanged:(id)sender;
 - (IBAction)onTipChanged:(id)sender;
@@ -73,6 +74,7 @@
     // Fade out the tip and total
     self.tipLabel.alpha = 0;
     self.totalLabel.alpha = 0;
+    self.line.alpha = 0;
 
     // Slide Bill & Tip Control Down
     CGRect billControlFrame = self.billTextField.frame;
@@ -88,6 +90,7 @@
     // Fade out the tip and total
     self.tipLabel.alpha = 1;
     self.totalLabel.alpha = 1;
+    self.line.alpha = 1;
 
     // Slide Tip Control Up
     CGRect billControlFrame = self.billTextField.frame;
