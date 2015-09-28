@@ -29,6 +29,16 @@
     [super viewDidLoad];
     self.title = @"Tip Calculator";
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(onApplicationWillEnterForeground)
+                                                 name:UIApplicationWillEnterForegroundNotification
+                                               object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(onApplicationWillResignActive)
+                                                 name:UIApplicationWillResignActiveNotification
+                                               object:nil];
+
     // Set up the Settings button
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Defaults" style:UIBarButtonItemStylePlain target:self action:@selector(onSettingsButton)];
 
@@ -80,6 +90,28 @@
 }
 
 - (IBAction)onBillChanged:(id)sender {
+    [self updateValues];
+}
+
+- (void)onApplicationWillResignActive {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:self.billTextField.text forKey:@"bill_value"];
+    [userDefaults setObject:[NSDate date] forKey:@"bill_date_time"];
+    [userDefaults setInteger:self.tipControl.selectedSegmentIndex forKey:@"recent_tip_index"];
+}
+
+- (void)onApplicationWillEnterForeground {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSTimeInterval timeSinceSet = [[NSDate date] timeIntervalSinceDate:[userDefaults valueForKey:@"bill_date_time"]];
+
+    if (timeSinceSet < 600) {
+        self.billTextField.text = [userDefaults valueForKey:@"bill_value"];
+        self.tipControl.selectedSegmentIndex = [userDefaults integerForKey:@"recent_tip_index"];
+    } else {
+        self.billTextField.text = @"";
+        [self setDefaultTip];
+    }
+
     [self updateValues];
 }
 
